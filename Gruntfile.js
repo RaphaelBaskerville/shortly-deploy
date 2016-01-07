@@ -124,23 +124,23 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   // default
-  // grunt.registerTask('default', ['test', 'build']);
+  grunt.registerTask('default', ['test', 'build']);
 
-  // grunt.registerTask('test', [
-  //   'jshint','mochaTest'
-  // ]);
+  grunt.registerTask('test', [
+    'jshint','mochaTest'
+  ]);
 
-  // grunt.registerTask('build', [
-  //   'concat', 'uglify'
-  // ]);
+  grunt.registerTask('build', [
+    'concat', 'uglify'
+  ]);
 
-  // grunt.registerTask('upload', function(n) {
-  //   if(grunt.option('prod')) {
-  //     // add your production server task here
-  //   } else {
-  //     grunt.task.run([ 'server-dev' ]);
-  //   }
-  // });
+  grunt.registerTask('upload', function(n) {
+    if(grunt.option('prod')) {
+      // add your production server task here
+    } else {
+      grunt.task.run([ 'server-dev' ]);
+    }
+  });
 
   // grunt.registerTask('deploy', [ 'git_deploy' ]);
 
