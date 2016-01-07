@@ -104,7 +104,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
-  grunt.loadNpmTasks('grunt-git-deploy');
+  // grunt.loadNpmTasks('grunt-git-deploy');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -124,25 +124,25 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   // default
-  grunt.registerTask('default', ['test', 'build']);
+  // grunt.registerTask('default', ['test', 'build']);
 
-  grunt.registerTask('test', [
-    'jshint','mochaTest'
-  ]);
+  // grunt.registerTask('test', [
+  //   'jshint','mochaTest'
+  // ]);
 
-  grunt.registerTask('build', [
-    'concat', 'uglify'
-  ]);
+  // grunt.registerTask('build', [
+  //   'concat', 'uglify'
+  // ]);
 
-  grunt.registerTask('upload', function(n) {
-    if(grunt.option('prod')) {
-      // add your production server task here
-    } else {
-      grunt.task.run([ 'server-dev' ]);
-    }
-  });
+  // grunt.registerTask('upload', function(n) {
+  //   if(grunt.option('prod')) {
+  //     // add your production server task here
+  //   } else {
+  //     grunt.task.run([ 'server-dev' ]);
+  //   }
+  // });
 
-  grunt.registerTask('deploy', [ 'git_deploy' ]);
+  // grunt.registerTask('deploy', [ 'git_deploy' ]);
 
 
 };
