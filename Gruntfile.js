@@ -3,12 +3,32 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+    // define a string to put between each file in the concatenated output
+      separator: ';'
+      },
+      dist: {
+        // the files to concatenate
+        src: ['public/**/*.js'],
+        // the location of the resulting JS file
+        dest: 'public/dist/<%= pkg.name %>.js'
+      }
     },
 
-    mochaTest: {
+    git_deploy: {
+      your_target: {
+        options: {
+          url: 'https://raphaelbaskerville@rsshortly.scm.azurewebsites.net:443/rsShortly.git',
+          branch: 'azure'
+
+        },
+        src: '.'
+      },
+    },
+
+    mochaTest: {  
       test: {
         options: {
-          reporter: 'spec'
         },
         src: ['test/**/*.js']
       }
@@ -21,12 +41,24 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        // the banner is inserted at the top of the output
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          'public/dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
+    },
+
+    qunit: {
+      files: ['test/**/*.html']
     },
 
     jshint: {
-      files: [
         // Add filespec list here
-      ],
+      files: ['gruntfile.js', 'public/**/*.js', 'test/**/*.js'],
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
@@ -72,6 +104,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-git-deploy');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -90,11 +123,15 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
+  // default
+  grunt.registerTask('default', ['test', 'build']);
+
   grunt.registerTask('test', [
-    'mochaTest'
+    'jshint','mochaTest'
   ]);
 
   grunt.registerTask('build', [
+    'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -105,9 +142,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', [
-      // add your production server task here
-  ]);
+  grunt.registerTask('deploy', [ 'git_deploy' ]);
 
 
 };
